@@ -12,7 +12,6 @@ function App() {
       const data = await import("./words.json");
       const randomWord =
         data.default[Math.floor(Math.random() * data.default.length)];
-      console.log(randomWord);
       setWordle(randomWord);
     };
     getWordle();
