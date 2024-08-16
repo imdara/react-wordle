@@ -22,12 +22,11 @@
   border-radius: 4px;
   color: white;
   font-size: 32px;
-  text-transform: uppercase;
   text-align: center;
 }
 .yellow {
-  background-color: yellow;
+  background-color: #a5a524;
 }
 .green {
-  background-color: green;
+  background-color: #0e720e;
 }

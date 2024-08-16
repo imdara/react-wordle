@@ -6,6 +6,7 @@ function App() {
   const [errFlag, setErrFlag] = useState(false);
   const [guessedWord, setGuessedWord] = useState("");
   const [guessedWords, setGuessedWords] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     const getWordle = async () => {
@@ -15,16 +16,18 @@ function App() {
       setWordle(randomWord);
     };
     getWordle();
-  }, []);
+  }, [gameOver]);
 
   useEffect(() => {
     setTimeout(() => {
       if (guessedWords.includes(wordle)) {
         alert("Hurray! You won");
         setGuessedWords([]);
+        setGameOver(!gameOver);
       } else if (guessedWords.length >= 5) {
         alert("Game Over! Better luck next time. It was " + wordle);
         setGuessedWords([]);
+        setGameOver(!gameOver);
       }
     }, 100);
   }, [guessedWords]);
@@ -33,7 +36,7 @@ function App() {
     e.preventDefault();
     if (guessedWord.length === 5 && guessedWord !== "") {
       if (errFlag) setErrFlag(false);
-      setGuessedWords([...guessedWords, guessedWord]);
+      setGuessedWords([...guessedWords, guessedWord.toLocaleUpperCase()]);
       setGuessedWord("");
     } else setErrFlag(true);
   };
@@ -55,11 +58,7 @@ function App() {
           type="text"
           name="word"
           id="word"
-          onChange={(e) =>
-            setGuessedWord(
-              (prev) => (prev = e.target.value.toLocaleUpperCase())
-            )
-          }
+          onChange={(e) => setGuessedWord((prev) => (prev = e.target.value))}
         />
         <p
           style={{
@@ -85,7 +84,7 @@ function WordRow({ word, wordle }) {
           className={
             !wordleArr.includes(char)
               ? "charBox"
-              : wordleArr.findIndex((ele) => ele === char) === i
+              : wordleArr[i] === char
               ? "charBox green"
               : "charBox yellow"
           }
